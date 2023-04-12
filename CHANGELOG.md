@@ -1,3 +1,54 @@
+# dbt_intercom_source v0.6.1
+## ⭐ Features ⭐
+- Passthrough columns variables can now be configured with an alias and a transform. Refer to [Passthrough Columns](https://github.com/fivetran/dbt_intercom_source#passthrough-columns) of the README for more information. ([#22](https://github.com/fivetran/dbt_intercom_source/pull/22))
+- Added passthrough custom column capability for models depending on source table `conversation_history`. ([#22](https://github.com/fivetran/dbt_intercom_source/pull/22))
+- Addition of the `body` field to the `stg_intercom__conversation_part_history` model. The addition of this field will help users understand the context of the conversation parts. ([#23](https://github.com/fivetran/dbt_intercom_source/pull/23))
+
+## 🚘 Under the hood 🚘
+- Updated staging for sources `company_history` and `contact_history` to utilize passthrough column macros from the fivetran/fivetran_utils package, which provides the configuration ability. ([#22](https://github.com/fivetran/dbt_intercom_source/pull/22))
+
+## 🔧 Fixes 🔧
+- Removed the `assigned_to_id` null test from `stg_intercom__conversation_part_history`. This test does not apply to instances where a conversation is not assigned, so `assigned_to_id` could accurately be null. ([#22](https://github.com/fivetran/dbt_intercom_source/pull/22))
+
+# dbt_intercom_source v0.6.0
+
+## 🚨 Breaking Changes 🚨:
+[PR #19](https://github.com/fivetran/dbt_intercom_source/pull/19) includes the following breaking changes:
+- Dispatch update for dbt-utils to dbt-core cross-db macros migration. Specifically `{{ dbt_utils.<macro> }}` have been updated to `{{ dbt.<macro> }}` for the below macros:
+    - `any_value`
+    - `bool_or`
+    - `cast_bool_to_text`
+    - `concat`
+    - `date_trunc`
+    - `dateadd`
+    - `datediff`
+    - `escape_single_quotes`
+    - `except`
+    - `hash`
+    - `intersect`
+    - `last_day`
+    - `length`
+    - `listagg`
+    - `position`
+    - `replace`
+    - `right`
+    - `safe_cast`
+    - `split_part`
+    - `string_literal`
+    - `type_bigint`
+    - `type_float`
+    - `type_int`
+    - `type_numeric`
+    - `type_string`
+    - `type_timestamp`
+    - `array_append`
+    - `array_concat`
+    - `array_construct`
+- For `current_timestamp` and `current_timestamp_in_utc` macros, the dispatch AND the macro names have been updated to the below, respectively:
+    - `dbt.current_timestamp_backcompat`
+    - `dbt.current_timestamp_in_utc_backcompat`
+- Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+
 # dbt_intercom_source v0.5.0
 ## 🚨 Breaking Changes 🚨
 - Added dbt_expectations packages to more easily setup more complex data validation tests.

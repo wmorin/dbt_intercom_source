@@ -29,14 +29,15 @@ final as (
     select 
         id as conversation_part_id,
         part_type,
+        body,
         conversation_id,
         author_id,
         author_type,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         assigned_to_id,
         assigned_to_type,
-        cast(conversation_updated_at as {{ dbt_utils.type_timestamp() }}) as conversation_updated_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at
+        cast(conversation_updated_at as {{ dbt.type_timestamp() }}) as conversation_updated_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at
     from fields
 )
 

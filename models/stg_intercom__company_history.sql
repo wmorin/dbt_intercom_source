@@ -25,12 +25,6 @@ fields as (
             )
         }}
 
-        --The below script allows for pass through columns.
-        {% if var('intercom__company_history_pass_through_columns') %}
-        ,
-        {{ var('intercom__company_history_pass_through_columns') | join (", ")}}
-
-        {% endif %}    
     from base
 ),
 
@@ -41,8 +35,8 @@ final as (
         name as company_name,
         website,
         industry,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         user_count,
         session_count,
         monthly_spend,
@@ -51,11 +45,7 @@ final as (
         _fivetran_deleted
 
         --The below script allows for pass through columns.
-        {% if var('intercom__company_history_pass_through_columns') %}
-        ,
-        {{ var('intercom__company_history_pass_through_columns') | join (", ")}}
-
-        {% endif %}
+        {{ fivetran_utils.fill_pass_through_columns('intercom__company_history_pass_through_columns') }}
     from fields
 )
 
